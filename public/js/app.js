@@ -5370,8 +5370,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Loader_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Loader.vue */ "./resources/js/components/Loader.vue");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Loader: _Loader_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: ["UserCount"],
   data: function data() {
     return {
@@ -5397,6 +5402,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var replace = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      this.isLoading = true;
       axios__WEBPACK_IMPORTED_MODULE_0___default().get("/api/connections", {
         params: {
           page: this.page // Pass the current page to the API
@@ -5414,6 +5420,8 @@ __webpack_require__.r(__webpack_exports__);
         _this.showLoadMoreButton = response.data.current_page < response.data.last_page; // Check if there are more pages
       })["catch"](function (error) {
         console.error(error);
+      })["finally"](function () {
+        _this.isLoading = false; // reset loading state when request is complete
       });
     },
     removeConnection: function removeConnection(connectionId) {
@@ -5462,6 +5470,7 @@ __webpack_require__.r(__webpack_exports__);
       this.showCommonConnections(this.selectedConnection.id, true);
     },
     loadMore: function loadMore() {
+      this.showCommon = false;
       this.fetchConnections();
     }
   }
@@ -5819,7 +5828,7 @@ var render = function render() {
 
   return _c("div", {
     staticClass: "text-white"
-  }, [_vm._l(_vm.connections, function (connection) {
+  }, [_vm.isLoading ? _c("Loader") : _vm._e(), _vm._v(" "), _vm._l(_vm.connections, function (connection) {
     return _c("div", {
       key: connection.id,
       staticClass: "my-2 shadow text-white bg-dark p-1"
@@ -5835,7 +5844,12 @@ var render = function render() {
       staticClass: "align-middle"
     }, [_vm._v(_vm._s(connection.email))]), _vm._v(" "), _c("td", {
       staticClass: "align-middle"
-    })]), _vm._v(" "), _c("div", [_c("button", {
+    })]), _vm._v(" "), _c("div", [connection.common_connection_count == 0 ? _c("button", {
+      staticClass: "btn btn-primary me-1",
+      attrs: {
+        disabled: ""
+      }
+    }, [_vm._v("\n          Connections in Common (" + _vm._s(connection.common_connection_count) + ")\n        ")]) : _c("button", {
       staticClass: "btn btn-primary me-1",
       on: {
         click: function click($event) {
@@ -5865,7 +5879,7 @@ var render = function render() {
     on: {
       click: _vm.loadMoreCommonConnections
     }
-  }, [_vm._v("\n        Load more\n      ")]) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n        Load more Common connection\n      ")]) : _vm._e()])]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "d-flex justify-content-center mt-2 py-3",
     attrs: {
       id: "load_more_btn_parent"

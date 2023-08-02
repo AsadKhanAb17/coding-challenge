@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ConnectionSeeder extends Seeder
@@ -18,11 +17,14 @@ class ConnectionSeeder extends Seeder
         $users = User::all();
 
         foreach ($users as $user) {
-            // Get a random user to connect with
-            $userToConnect = $users->except($user->id)->random();
+            for ($i = 0; $i < 10; $i++) {
+                // Get a random user to connect with
+                $userToConnect = $users->except($user->id)->random();
 
-            // Create connections between users
-            $user->connections()->attach($userToConnect);
+                // Create connections between users
+                // Here we're using syncWithoutDetaching to avoid attaching the same connection multiple times
+                $user->connections()->syncWithoutDetaching($userToConnect);
+            }
         }
     }
 }

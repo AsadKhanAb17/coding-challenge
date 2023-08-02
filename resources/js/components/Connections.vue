@@ -2,6 +2,8 @@
 
 <template>
   <div class="text-white">
+    <Loader v-if="isLoading" />
+
     <div
       class="my-2 shadow text-white bg-dark p-1"
       v-for="connection in connections"
@@ -17,6 +19,14 @@
 
         <div>
           <button
+            disabled
+            v-if="connection.common_connection_count == 0"
+            class="btn btn-primary me-1"
+          >
+            Connections in Common ({{ connection.common_connection_count }})
+          </button>
+          <button
+            v-else
             class="btn btn-primary me-1"
             @click="showCommonConnections(connection.id)"
           >
@@ -48,7 +58,7 @@
           @click="loadMoreCommonConnections"
           class="btn btn-primary"
         >
-          Load more
+          Load more Common connection
         </button>
       </div>
     </div>
@@ -70,8 +80,11 @@
   
   <script>
 import axios from "axios";
+import Loader from "./Loader.vue";
 
 export default {
+  components: { Loader },
+
   props: ["UserCount"],
 
   data() {
@@ -92,6 +105,7 @@ export default {
   },
   methods: {
     fetchConnections(replace = false) {
+      this.isLoading = true;
       axios
         .get("/api/connections", {
           params: {
@@ -110,6 +124,9 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        })
+        .finally(() => {
+          this.isLoading = false; // reset loading state when request is complete
         });
     },
     removeConnection(connectionId) {
@@ -141,7 +158,8 @@ export default {
               response.data.data
             );
           } else {
-            this.commonConnections = response.data.data;``
+            this.commonConnections = response.data.data;
+            ``;
           }
           this.showLoadMoreCommonConnectionsButton =
             response.data.current_page < response.data.last_page; // Check if there are more pages
@@ -157,6 +175,7 @@ export default {
       this.showCommonConnections(this.selectedConnection.id, true);
     },
     loadMore() {
+      this.showCommon = false;
       this.fetchConnections();
     },
   },
