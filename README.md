@@ -77,7 +77,7 @@ Further requirements:
     `php artisan migrate --seed`. Connections could then be tested by accepting a request.
 
     ```
-  <?php
+   <?php
 
 namespace Database\Seeders;
 
@@ -99,7 +99,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CommonConnectionSeeder::class);
     }
 }
-
 
     ```
 
