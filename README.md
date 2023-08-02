@@ -10,7 +10,7 @@ PLEASE NOTE: For us the most important aspect we are looking for in the code cha
 
 -   Laravel 9, PHP 8
 -   Bootsrap 5
--   JQuery
+-   vue js
 -   MySQL
 
 Please use the given UI componentes / blade files for the frontend, and focus on the backend only with a bit of Jquery.
@@ -24,6 +24,7 @@ The project in production is very similar: A Laravel 8 monolith + Bootsrap + Jqu
 -   Create a database, name it 'Ikonic_coding_challenge'.
 -   Setup .env file
 -   Run `composer install` and `php artisan key:generate`.
+-   Run `npm install` and `npm run dev`.
 -   When you see the login page, head over the register page, create an account and log in. After that you should see some of the components in the images below and you can get started in the network_connections.blade.php file.
 
 ## Objective ✅
@@ -76,30 +77,29 @@ Further requirements:
     `php artisan migrate --seed`. Connections could then be tested by accepting a request.
 
     ```
-    <?php
+  <?php
 
-    namespace Database\Seeders;
+namespace Database\Seeders;
 
-    use Illuminate\Database\Seeder;
-    use Database\Seeders\UsersSeeder;
-    use Database\Seeders\RequestsSeeder;
-    use Database\Seeders\ConnectionsInCommonSeeder;
-    use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-    class DatabaseSeeder extends Seeder
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     *
+     * @return void
+     */
+    public function run()
     {
-        /**
-         * Seed the application's database.
-         *
-         * @return void
-         */
-        public function run()
-        {
-            $this->call(UsersSeeder::class);
-            $this->call(RequestsSeeder::class);
-            $this->call(ConnectionsInCommonSeeder::class);
-        }
+        $this->call(UserSeeder::class);
+        $this->call(ConnectionSeeder::class);
+        $this->call(ConnectionRequestSeeder::class);
+        $this->call(CommonConnectionSeeder::class);
     }
+}
+
 
     ```
 
