@@ -77,28 +77,31 @@ Further requirements:
     `php artisan migrate --seed`. Connections could then be tested by accepting a request.
 
     ```
-   <?php
+    <?php
 
-namespace Database\Seeders;
+    namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+    use Illuminate\Database\Seeder;
+    use Database\Seeders\UsersSeeder;
+    use Database\Seeders\RequestsSeeder;
+    use Database\Seeders\ConnectionsInCommonSeeder;
+    use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class DatabaseSeeder extends Seeder
-{
-    /**
-     * Seed the application's database.
-     *
-     * @return void
-     */
-    public function run()
+    class DatabaseSeeder extends Seeder
     {
-        $this->call(UserSeeder::class);
+        /**
+         * Seed the application's database.
+         *
+         * @return void
+         */
+        public function run()
+        {
+             $this->call(UserSeeder::class);
         $this->call(ConnectionSeeder::class);
         $this->call(ConnectionRequestSeeder::class);
         $this->call(CommonConnectionSeeder::class);
+        }
     }
-}
 
     ```
 
