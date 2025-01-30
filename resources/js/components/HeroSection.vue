@@ -66,13 +66,13 @@ export default {
       </div>
     </div>
 </div>
-<div class="carousel-indicators">
-  <button v-for="n in 3" :key="n" 
-    :class="{ active: currentSlide === n-1 }"
-    @click="setSlide(n-1)"
+    <div class="carousel-indicators">
+        <button v-for="n in 3" :key="n" 
+            :class="{ active: currentSlide === n-1 }"
+            @click="setSlide(n-1)"
 
-  ></button>
-  </div>
+        ></button>
+    </div>
 
   <!-- Shop by Category -->
   <section class="py-5">
@@ -153,6 +153,7 @@ export default {
 }
 
 .carousel-indicators {
+
   margin-bottom: 2rem;
 }
 
